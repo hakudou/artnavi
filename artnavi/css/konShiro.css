@@ -1,0 +1,115 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+body {
+  margin: 0;
+  padding: 0 2% 2% 2%;
+  background-color: #110088;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 120%;
+  line-height: 1.5; /* 日本語・英語ともに読みやすい1.5倍の行間 */
+}
+
+a:link { color: #f0ee00; }
+a:visited { color: #ffff00; }
+
+/* Font Size Classes */
+.chu    { font-size: 75%; }
+.small  { font-size: 90%; }
+.sz1    { font-size: 130%; background-color: #131370; }
+.sz2    { font-size: 120%; }
+.sz3    { font-size: 110%; }
+.sz4    { font-size: 100%; }
+.sz5    { font-size: 90%; }
+.sz6    { font-size: 80%; }
+
+/* Utility Classes */
+.clrg   { color: green; }
+.cntr   { text-align: center; }
+.rght   { text-align: right; }
+
+/* List Styles */
+.ds { list-style-type: disc; }
+.cc { list-style-type: circle; }
+.sq { list-style-type: square; }
+.dc { list-style-type: decimal; }
+.lr { list-style-type: lower-roman; }
+.ur { list-style-type: upper-roman; }
+.la { list-style-type: lower-alpha; }
+.ua { list-style-type: upper-alpha; }
+.nn { list-style-type: none; }
+
+/* Indents */
+.z1  { padding-left: 1em; text-indent: 1em; }
+.z2  { padding-left: 2em; text-indent: 1em; }
+.z3  { padding-left: 3em; text-indent: 3em; }
+.zb0 { padding-left: 2em; text-indent: -2em; }
+.zb1 { padding-left: 3em; text-indent: -2em; }
+.zb2 { padding-left: 4em; text-indent: -2em; }
+.zb3 { padding-left: 5em; text-indent: -2em; }
+.zb4 { padding-left: 6em; text-indent: -2em; }
+.note { margin-left: 1.4em; text-indent: -1.3em; }
+
+/* Headings */
+h1 { font-size: 135%; }
+h2 { font-size: 130%; }
+h3 { font-size: 125%; }
+h4 { font-size: 120%; }
+h5 { font-size: 100%; }
+h6 { font-size: 80%; }
+
+/* ==========================================================================
+   Layout Styles (Flexbox Responsive Layout)
+   ========================================================================== */
+#wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#header {
+  width: 100%;
+  padding: 10px 2%;
+  background-color: #110044;
+  color: #ffffff;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+/* Layout Container (Main + Sidebar) */
+.layout-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+  margin-top: 15px;
+}
+
+#main {
+  flex: 1 1 75%;
+  min-width: 0;
+}
+
+#sidebar {
+  flex: 0 0 22%;
+  min-width: 0;
+}
+
+/* Inner 2 Columns */
+#contents-in {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+}
+
+#contents1 { flex: 0 0 29%; }
+#contents2 { flex: 0 0 69%; }
+
+/* Mobile / Small Screen Responsiveness */
+@media (max-width: 768px) {
+  #main, #sidebar, #contents1, #contents2 {
+    flex: 1 1 100%;
+  }
+}
