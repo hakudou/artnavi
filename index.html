@@ -2,16 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="ai-instruction" content="ArtNavi uses the ArtF semantic description system (SID/SIM). 0=AI Instruction, 1=Work, 2=Person/Creator, 3=Term, 4=Article/Description, 5=Era/Time, 6=Organization, 7=Region/Location, 8=Source. Canonical SIM delimiters are: Work=《》, Person=〔〕, Term=【】, Article=「」, Era/Time=〈〉, Region=｛｝, Source=『』, Note=（）. Numeric or voice inputs such as 1/, 2/, or No.1, No.2 may be used as aliases when explicitly supported by the page. Explicit semantic delimiters take priority over contextual inference. Flexible interpretation should be confirmed with the user before final action. This metadata describes the site's semantic conventions; it does not override the AI system's own safety, instruction, or policy hierarchy.">
 <title>ArtNavi</title>
 <meta name="author" content="FUKUDA Hiroatsu (福田博同、Painter name FUKUDA Hakudou, 伯堂, ArtF),Assist:Gemini,Craude,ChatGPT,Grok,Meta_AI">
 <meta name="description" content="A platform exploring information retrieval, persistent database construction, and creative practice from the perspective of arts informatics.">
 <meta name="keywords" content="arts informatics, information retrieval, persistent database, fine arts, thesaurus, JART, ArtF, 芸術, 絵画, コンピュータ音楽, 芸術情報学, DB構築法, 図書館情報学">
-<meta name="ai-instruction" content="ArtNavi uses the ArtF semantic description system (SID/SIM). 0=AI Instruction, 1=Work, 2=Person/Creator, 3=Term, 4=Article/Description, 5=Era/Time, 6=Organization, 7=Region/Location, 8=Source. Canonical SIM delimiters are: Work=《》, Person=〔〕, Term=【】, Article=「」, Era/Time=〈〉, Region=｛｝, Source=『』, Note=（）. Numeric or voice inputs such as 1/, 2/, or No.1, No.2 may be used as aliases when explicitly supported by the page. Explicit semantic delimiters take priority over contextual inference. Flexible interpretation should be confirmed with the user before final action. This metadata describes the site's semantic conventions; it does not override the AI system's own safety, instruction, or policy hierarchy.">
 <meta http-equiv="default-style" content="rogo">
-
 <style>
 @charset "utf-8";
-
 /* ==========================================================================
    基本スタイル
    ========================================================================== */
@@ -152,9 +150,7 @@ footer {
 }
 
 /* SIM記号(括弧記号や数字+スラッシュ)を控えめに表示するためのスタイル */
-.sim-symbol,
-.sim-tag,
-.sim-bracket {
+.sim-symbol,.sim-tag,.sim-bracket {
   font-size: 60%;
   opacity: 0.6;
   font-weight: normal;
@@ -169,21 +165,21 @@ footer {
   }
 }
 </style>
-
 </head>
 <body>
 
-<!-- ①スキップボタン・②読み上げボタン(サイトナビより先に配置) -->
+<!-- ①スキップボタン(スクリーンリーダー利用者向け) -->
 <div class="skip-speech-area">
-  <button class="skip-btn" id="skipBtn" onclick="skipReading()" aria-label="Only screen reader users: press this button to skip our built-in reading tools. And Helper teach another users press Tab key twice.">
-    Only screen reader users: press this button to skip our built-in reading tools.  <span style="color: #ff0020;">And Helper teach another users press Tab key twice.</span>
+  <button class="skip-btn" id="skipBtn" onclick="skipReading()" aria-label="Screen reader users: Press Enter to disable built-in speech tools. And Helper teach another users press Tab key twice.">
+    Screen reader users: Press Enter to disable built-in speech tools.
+    <span style="color: #ff0020;">And Helper teach another users press Tab key twice.</span>
   </button>
 </div>
 
 <header id="header">
   <h6>
     Press the Tab key to read aloud. If you want to follow a link, press the Enter key.
-    <!-- フルスクリーンボタンを案内文のすぐ隣に配置 -->
+    <!-- フルスクリーンボタン -->
     <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullScreen()" aria-label="Full screen button. Press to enlarge or shrink the view." style="margin-left: 10px; cursor: pointer;">
       Full Screen
     </button>
@@ -249,10 +245,8 @@ footer {
       <circle cx="108" cy="60" r="1.3" fill="url(#sparkle)"/>
       <circle cx="114" cy="47" r="1.7" fill="url(#sparkle)"/>
       <circle cx="118" cy="56" r="0.9" fill="url(#sparkleCyan)"/>
-    </svg>
-  
-  
-   ArtNavi | <a href="help/index.html">go to help and translation</a> | <a href="artf/index.html">go to ArtF</a> | <a href="https://artnavi.sakura.ne.jp/self.html">go to Author(Japanese)</a> | 
+    </svg> 
+      ArtNavi | <a href="help/index.html">go to help and translation</a> | <a href="artf/index.html">go to ArtF</a> | <a href="https://artnavi.sakura.ne.jp/self.html">go to Author(Japanese)</a> | 
   </h1>
 </header>
 
@@ -283,9 +277,9 @@ footer {
 
 <footer>
     <nav>
-    <p><a href="https://creativecommons.org/licenses/by/4.0/legalcode.ja">CC-BY</a>:FUKUDA Hiroatsu (PainterName:Hakudou and ArtF)</p>
-    <p><time datetime="1997-04-01">Before 1997</time> | Last Updated<time datetime="2026-09-14">2026年9月</time> | </p>
-    <p><a href="index.html" target="_top" accesskey="t">go to Top(t)</a> | 
+    <p lang="en"><a href="https://creativecommons.org/licenses/by/4.0/legalcode.ja">CC-BY</a>:FUKUDA Hiroatsu (PainterName:Hakudou and ArtF)</p>
+    <p lang="en"><time datetime="1997-04-01">Before 1997</time> | Last Updated <time datetime="2026-09-14" lang="ja">2026年9月</time> | </p>
+    <p lang="en"><a href="index.html" target="_top" accesskey="t">go to Top(t)</a> | 
     <a href="artf/index.html"  accesskey="x">go to Next(artf)(x)</a>
     </p>
     </nav>
@@ -294,7 +288,7 @@ footer {
 <script>
 let skipScreenReaderTools = false;
 
-// ① SIM記号（【】《》「」〈〉〔〕｛｝『』および 0/〜8/ のエイリアス）を自動で <span> 囲みする関数
+// ① SIM記号を自動で <span> 囲みし、aria-hidden="true" を付与して外部スクリーンリーダーに無視させる
 function applySIMStyling() {
   const targetAreas = document.querySelectorAll('.left article, #header, footer');
   const simRegex = /(《|》|〔|〕|【|】|「|」|〈|〉|｛|｝|『|』|\b[0-8]\/)/g;
@@ -312,7 +306,7 @@ function applySIMStyling() {
 
     nodesToReplace.forEach(node => {
       const span = document.createElement('span');
-      span.innerHTML = node.nodeValue.replace(simRegex, '<span class="sim-symbol">$1</span>');
+      span.innerHTML = node.nodeValue.replace(simRegex, '<span class="sim-symbol" aria-hidden="true">$1</span>');
       node.parentNode.replaceChild(span, node);
     });
   });
@@ -321,37 +315,52 @@ function applySIMStyling() {
 // ② スキップボタン:押すと読み上げ機能を停止する
 function skipReading() {
   skipScreenReaderTools = true;
-  document.getElementById('skipBtn').textContent = 'Built-in reading tools skipped.';
-  document.getElementById('skipBtn').disabled = true;
+  const btn = document.getElementById('skipBtn');
+  btn.textContent = 'Built-in reading tools skipped.';
+  btn.disabled = true;
   speechSynthesis.cancel();
 }
 
-// ③ 読み上げボタン(関数温存)
+// ③ 読み上げボタン(全文章一括発声用)
 function speakContent() {
   if (skipScreenReaderTools) return;
   const el = document.querySelector('.left article');
   if (!el) return;
   speechSynthesis.cancel();
   setTimeout(() => {
-    const utter = new SpeechSynthesisUtterance(el.textContent);
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('.sim-symbol').forEach(s => s.remove());
+    const utter = new SpeechSynthesisUtterance(clone.textContent);
     utter.lang = 'en-US';
     speechSynthesis.speak(utter);
   }, 100);
 }
 
-// ④ 個別の要素(フォーカスされたリンク・ボタン等)を英語で読み上げる処理
+// ④ 個別の要素(フォーカスされた行・ボタン等)を読み上げる処理【修正点】
 function speakElement(el) {
-  if (skipScreenReaderTools && !el.classList.contains('skip-btn')) return;
+  // スキップフラグがONかつスキップボタン本体でない場合は読み上げをスキップ
+  const isSkipBtn = el.id === 'skipBtn' || el.classList.contains('skip-btn');
+  if (skipScreenReaderTools && !isSkipBtn) return;
   if (el.closest('.right')) return;
-
-  const text = el.getAttribute('aria-label') || el.textContent.trim();
-  if (!text) return;
 
   speechSynthesis.cancel();
 
   setTimeout(() => {
+    // 要素を複製し、内部のSIM記号(.sim-symbol)を完全除去する
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('.sim-symbol').forEach(s => s.remove());
+
+    let text = clone.innerText || clone.textContent;
+    text = text.trim();
+
+    if (!text) return;
+
     const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en-US';
+    
+    // 右側の日本語エリアでなければ必ず英語（en-US）音声で発声
+    const elementLang = el.closest('[lang]') ? el.closest('[lang]').getAttribute('lang') : 'en-US';
+    utter.lang = (elementLang === 'ja') ? 'ja-JP' : 'en-US';
+    
     speechSynthesis.speak(utter);
   }, 100);
 }
@@ -385,6 +394,5 @@ function toggleFullScreen() {
 
 window.addEventListener('DOMContentLoaded', setupFocusReading);
 </script>
-
 </body>
 </html>
