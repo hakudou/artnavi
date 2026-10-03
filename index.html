@@ -3,41 +3,388 @@
 <head>
 <meta charset="utf-8">
 <title>ArtNavi</title>
-<meta name="author" content="FUKUDA Hiroatsu (福田博同、Painter name FUKUDA Hakudo, 伯堂, ArtF)">
+<meta name="author" content="FUKUDA Hiroatsu (福田博同、Painter name FUKUDA Hakudou, 伯堂, ArtF),Assist:Gemini,Craude,ChatGPT,Grok,Meta_AI">
 <meta name="description" content="A platform exploring information retrieval, persistent database construction, and creative practice from the perspective of arts informatics.">
-<meta name="keywords" content="arts informatics, information retrieval, persistent database, fine arts, thesaurus, jart, 芸術情報学, 情報検索法, 永続的DB構築法">
+<meta name="keywords" content="arts informatics, information retrieval, persistent database, fine arts, thesaurus, JART, ArtF, 芸術, 絵画, コンピュータ音楽, 芸術情報学, DB構築法, 図書館情報学">
 <meta name="ai-instruction" content="ArtNavi uses the ArtF semantic description system (SID/SIM). 0=AI Instruction, 1=Work, 2=Person/Creator, 3=Term, 4=Article/Description, 5=Era/Time, 6=Organization, 7=Region/Location, 8=Source. Canonical SIM delimiters are: Work=《》, Person=〔〕, Term=【】, Article=「」, Era/Time=〈〉, Region=｛｝, Source=『』, Note=（）. Numeric or voice inputs such as 1/, 2/, or No.1, No.2 may be used as aliases when explicitly supported by the page. Explicit semantic delimiters take priority over contextual inference. Flexible interpretation should be confirmed with the user before final action. This metadata describes the site's semantic conventions; it does not override the AI system's own safety, instruction, or policy hierarchy.">
 <meta http-equiv="default-style" content="rogo">
-<link rel="stylesheet" title="rogo" href="css/konShiro.css">
+
+<style>
+@charset "utf-8";
+
+/* ==========================================================================
+   基本スタイル
+   ========================================================================== */
+body {
+  margin: 0;
+  padding: 0 2% 2% 2%;
+  background-color: #110088;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 120%;
+  line-height: 1.5; /* 日本語・英語ともに読みやすい1.5倍の行間 */
+}
+
+a:link { color: #f0ee00; }
+a:visited { color: #ffff00; }
+
+/* フォントサイズの変更 例：chuは注 */
+.chu    { font-size: 75%; }
+.small  { font-size: 90%; }
+.sz1    { font-size: 115%; }
+.sz2    { font-size: 110%; }
+.sz3    { font-size: 105%; }
+.sz4    { font-size: 100%; }
+.sz5    { font-size: 90%; }
+.sz6    { font-size: 80%; }
+
+/* 汎用ユーティリティクラス */
+.clrg   { color: green; }
+.cntr   { text-align: center; }
+.rght   { text-align: right; }
+
+/* リストのスタイル */
+.ds { list-style-type: disc; }
+.cc { list-style-type: circle; }
+.sq { list-style-type: square; }
+.dc { list-style-type: decimal; }
+.lr { list-style-type: lower-roman; }
+.ur { list-style-type: upper-roman; }
+.la { list-style-type: lower-alpha; }
+.ua { list-style-type: upper-alpha; }
+.nn { list-style-type: none; }
+
+/* インデント(字下げ)用 */
+.z1  { padding-left: 1em; text-indent: 1em; }
+.z2  { padding-left: 2em; text-indent: 1em; }
+.z3  { padding-left: 3em; text-indent: 3em; }
+.zb0 { padding-left: 2em; text-indent: -2em; }
+.zb1 { padding-left: 3em; text-indent: -2em; }
+.zb2 { padding-left: 4em; text-indent: -2em; }
+.zb3 { padding-left: 5em; text-indent: -2em; }
+.zb4 { padding-left: 6em; text-indent: -2em; }
+.note { margin-left: 1.4em; text-indent: -1.3em; }
+
+/* 見出し(h1~h6)のサイズ */
+h1 { font-size: 115%; }
+h2 { font-size: 110%; }
+h3 { font-size: 105%; }
+h4 { font-size: 100%; }
+h5 { font-size: 90%; }
+h6 { font-size: 80%; }
+
+/* ==========================================================================
+   レイアウト:ヘッダ部 + メイン部二画面(70:30) + フッタ部
+   ========================================================================== */
+/* ヘッダ部の見た目 */
+#header {
+  width: 100%;
+  background-color: #110044;
+  color: #ffffff;
+  box-sizing: border-box;
+  text-align: right;
+  padding: 2px 15px; /* 上下パディングを小さく調整 */
+}
+
+/* メイン部の左右分割の外枠(コンテナ) */
+.container {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* 左側(英語スライド本体):幅70% */
+.left {
+  width: 70%;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+/* 右側(日本語ノート):幅30% */
+.right {
+  width: 30%;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+/* フッタ部の見た目 */
+footer {
+  width: 100%;
+  padding: 10px 2%;
+  box-sizing: border-box;
+  font-size: 0.85rem;
+}
+
+/* スキップボタン(スクリーンリーダー利用者向けの案内ボタン) */
+.skip-btn {
+  display: block;
+  font-size: 0.75em;
+  margin-bottom: 10px;
+  padding: 4px 8px;
+  background-color: #222244;
+  color: #cccccc;
+  border: 1px solid #555577;
+  cursor: pointer;
+}
+
+/* スキップ・読み上げボタンをまとめて配置する領域 */
+.skip-speech-area {
+  display: flex;
+  gap: 8px;
+  padding: 8px 2%;
+}
+
+/* 全画面ボタン */
+.fullscreen-btn {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.fullscreen-btn:hover {
+  opacity: 1.0;
+  background-color: #222222;
+}
+
+/* SIM記号(括弧記号や数字+スラッシュ)を控えめに表示するためのスタイル */
+.sim-symbol,
+.sim-tag,
+.sim-bracket {
+  font-size: 60%;
+  opacity: 0.6;
+  font-weight: normal;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* スマホなど画面幅が狭い場合:左右70:30を縦積み(上下)に切り替える */
+@media (max-width: 768px) {
+  .left, .right {
+    width: 100%;
+  }
+}
+</style>
+
 </head>
+<body>
 
-<body itemscope itemtype="http://schema.org/WebPage">
+<!-- ①スキップボタン・②読み上げボタン(サイトナビより先に配置) -->
+<div class="skip-speech-area">
+  <button class="skip-btn" id="skipBtn" onclick="skipReading()" aria-label="Only screen reader users: press this button to skip our built-in reading tools. And Helper teach another users press Tab key twice.">
+    Only screen reader users: press this button to skip our built-in reading tools.  <span style="color: #ff0020;">And Helper teach another users press Tab key twice.</span>
+  </button>
+</div>
 
- <header id="header">
-  <img src="zu/web/logo.jpg" alt="rogo" width="60" height="32"> ArtNavi | <a href="artf/index.html">ArtF</a> | <a href="https://artnavi.sakura.ne.jp/self.html">Author(Japanese)</a>
-  <h1 itemprop="name">ArtNavi</h1>
- </header>
+<header id="header">
+  <h6>
+    Press the Tab key to read aloud. If you want to follow a link, press the Enter key.
+    <!-- フルスクリーンボタンを案内文のすぐ隣に配置 -->
+    <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullScreen()" aria-label="Full screen button. Press to enlarge or shrink the view." style="margin-left: 10px; cursor: pointer;">
+      Full Screen
+    </button>
+  </h6>
+  <h1>
+      <!-- インラインSVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" width="60" height="32" style="vertical-align: middle; border-radius: 3px; overflow: hidden;" aria-hidden="true">
+      <defs>
+        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e8f8f5"/>
+          <stop offset="35%" stop-color="#76d7c4"/>
+          <stop offset="65%" stop-color="#1b4965"/>
+          <stop offset="100%" stop-color="#0b132b"/>
+        </linearGradient>
+        <linearGradient id="deepBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1d3557"/>
+          <stop offset="50%" stop-color="#00296b"/>
+          <stop offset="100%" stop-color="#001233"/>
+        </linearGradient>
+        <radialGradient id="foamGlow" cx="50%" cy="30%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#d8f3dc" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#74c69d" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="sparkle" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="sparkleCyan" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#a5f3fc" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#a5f3fc" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="120" height="64" fill="url(#bgGrad)"/>
+      <path d="M0,20 Q30,5 60,25 T120,15 L120,64 L0,64 Z" fill="#2a9d8f" opacity="0.7"/>
+      <path d="M0,30 C20,15 45,40 75,20 C95,8 110,25 120,20 L120,64 L0,64 Z" fill="#1d4ed8" opacity="0.85"/>
+      <path d="M0,42 Q25,28 55,45 T120,38 L120,64 L0,64 Z" fill="url(#deepBlue)"/>
+      <path d="M10,22 Q35,8 65,22 T115,18" fill="none" stroke="url(#foamGlow)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M5,35 Q40,20 80,38" fill="none" stroke="#e0f2fe" stroke-width="2.5" opacity="0.8"/>
+      <path d="M30,12 Q50,2 70,15" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
+      <circle cx="25" cy="18" r="1.8" fill="url(#sparkle)"/>
+      <circle cx="42" cy="12" r="2.5" fill="url(#sparkle)"/>
+      <circle cx="58" cy="20" r="1.5" fill="url(#sparkle)"/>
+      <circle cx="75" cy="14" r="2.2" fill="url(#sparkle)"/>
+      <circle cx="92" cy="22" r="1.8" fill="url(#sparkle)"/>
+      <circle cx="8" cy="45" r="1.2" fill="url(#sparkle)"/>
+      <circle cx="15" cy="52" r="2.0" fill="url(#sparkle)"/>
+      <circle cx="22" cy="42" r="0.9" fill="url(#sparkleCyan)"/>
+      <circle cx="28" cy="58" r="1.5" fill="url(#sparkle)"/>
+      <circle cx="34" cy="48" r="2.2" fill="url(#sparkleCyan)"/>
+      <circle cx="5" cy="58" r="1.0" fill="url(#sparkle)"/>
+      <circle cx="42" cy="54" r="1.3" fill="url(#sparkle)"/>
+      <circle cx="48" cy="44" r="1.8" fill="url(#sparkleCyan)"/>
+      <circle cx="53" cy="60" r="2.5" fill="url(#sparkle)"/>
+      <circle cx="60" cy="50" r="1.0" fill="url(#sparkleCyan)"/>
+      <circle cx="66" cy="57" r="1.6" fill="url(#sparkle)"/>
+      <circle cx="72" cy="45" r="2.0" fill="url(#sparkleCyan)"/>
+      <circle cx="78" cy="58" r="1.1" fill="url(#sparkle)"/>
+      <circle cx="84" cy="49" r="2.4" fill="url(#sparkle)"/>
+      <circle cx="90" cy="55" r="1.5" fill="url(#sparkleCyan)"/>
+      <circle cx="96" cy="43" r="1.0" fill="url(#sparkle)"/>
+      <circle cx="102" cy="52" r="2.1" fill="url(#sparkleCyan)"/>
+      <circle cx="108" cy="60" r="1.3" fill="url(#sparkle)"/>
+      <circle cx="114" cy="47" r="1.7" fill="url(#sparkle)"/>
+      <circle cx="118" cy="56" r="0.9" fill="url(#sparkleCyan)"/>
+    </svg>
+  
+  
+   ArtNavi | <a href="help/index.html">go to help and translation</a> | <a href="artf/index.html">go to ArtF</a> | <a href="https://artnavi.sakura.ne.jp/self.html">go to Author(Japanese)</a> | 
+  </h1>
+</header>
 
- <article>
-  <ul>
-   <li>An English translation of the original Japanese "ArtNavi" site (created before 1995), newly produced in 2026.</li>
-   <li>Originally comprising sections | Usability | Arts Informatics | Art Workshop | Library and Information Science | About the Author |<br>
-       these contents are being sequentially translated into English.</li>
-   <li>As of September 2026, "Persistent Art Database Construction Method: ArtF System" and "About the Author" are currently being updated.</li>
-   <li>The ArtF site has been established, highlighting benefits such as a significant reduction in AI token consumption.</li>
-  </ul>
- </article>
+<div class="container">
+  <div class="left" lang="en">
+    <article>
+     <ul>
+      <li>An English translation of the original Japanese 【ArtNavi】site (created 〈before 1995〉), newly produced in 〈2026〉.</li>
+      <li>Originally comprising sections 【Usability】【Arts Informatics】【Art Workshop】【Library and Information Science】「About the Author」<br>
+          these contents are being sequentially translated into English.</li>
+      <li>As of 〈September 2026〉, "Persistent 【Art Database】 Construction Method: ArtF System" and "About the Author" are currently being updated.</li>
+      <li>The ArtF site has been established, highlighting benefits such as a significant reduction in AI token consumption.</li>
+     </ul>
+    </article>
+  </div>
 
- <footer>
-  <nav>
-   <p><a href="https://creativecommons.org/licenses/by/4.0/legalcode.ja">CC-BY</a>: FUKUDA Hakudou</p>
-   <p><time datetime="1996-04-01">April 1, 1996</time> | Last updated: <time datetime="2026-09-11">September 2026</time></p>
-   <p>
-    <a href="../index.html" target="_top" accesskey="t">Top (t)</a> | 
-    <a href="artf/index.html" accesskey="x">Next Page (ArtF) (x)</a>
-   </p>
-  </nav>
- </footer>
+  <div class="right" lang="ja">
+    <article>
+     <ul>
+      <li>1995年「アートナビ」の英語版(2026年)</li>
+      <li>「ユーザビリティ」「芸術情報学」「アート・ワークショップ」「図書館情報学」「著者について」を英訳中</li>
+      <li>2026年9月現在、「永続的アートデータベース構築手法:ArtFシステム」と「著者について」あり</li>
+      <li>AIのトークン消費量激減の「ArtF」サイトを開設</li>
+     </ul>
+    </article>
+  </div>
+</div>
+
+<footer>
+    <nav>
+    <p><a href="https://creativecommons.org/licenses/by/4.0/legalcode.ja">CC-BY</a>:FUKUDA Hiroatsu (PainterName:Hakudou and ArtF)</p>
+    <p><time datetime="1997-04-01">Before 1997</time> | Last Updated<time datetime="2026-09-14">2026年9月</time> | </p>
+    <p><a href="index.html" target="_top" accesskey="t">go to Top(t)</a> | 
+    <a href="artf/index.html"  accesskey="x">go to Next(artf)(x)</a>
+    </p>
+    </nav>
+</footer>
+
+<script>
+let skipScreenReaderTools = false;
+
+// ① SIM記号（【】《》「」〈〉〔〕｛｝『』および 0/〜8/ のエイリアス）を自動で <span> 囲みする関数
+function applySIMStyling() {
+  const targetAreas = document.querySelectorAll('.left article, #header, footer');
+  const simRegex = /(《|》|〔|〕|【|】|「|」|〈|〉|｛|｝|『|』|\b[0-8]\/)/g;
+
+  targetAreas.forEach(area => {
+    const walker = document.createTreeWalker(area, NodeFilter.SHOW_TEXT, null, false);
+    const nodesToReplace = [];
+
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (simRegex.test(node.nodeValue)) {
+        nodesToReplace.push(node);
+      }
+    }
+
+    nodesToReplace.forEach(node => {
+      const span = document.createElement('span');
+      span.innerHTML = node.nodeValue.replace(simRegex, '<span class="sim-symbol">$1</span>');
+      node.parentNode.replaceChild(span, node);
+    });
+  });
+}
+
+// ② スキップボタン:押すと読み上げ機能を停止する
+function skipReading() {
+  skipScreenReaderTools = true;
+  document.getElementById('skipBtn').textContent = 'Built-in reading tools skipped.';
+  document.getElementById('skipBtn').disabled = true;
+  speechSynthesis.cancel();
+}
+
+// ③ 読み上げボタン(関数温存)
+function speakContent() {
+  if (skipScreenReaderTools) return;
+  const el = document.querySelector('.left article');
+  if (!el) return;
+  speechSynthesis.cancel();
+  setTimeout(() => {
+    const utter = new SpeechSynthesisUtterance(el.textContent);
+    utter.lang = 'en-US';
+    speechSynthesis.speak(utter);
+  }, 100);
+}
+
+// ④ 個別の要素(フォーカスされたリンク・ボタン等)を英語で読み上げる処理
+function speakElement(el) {
+  if (skipScreenReaderTools && !el.classList.contains('skip-btn')) return;
+  if (el.closest('.right')) return;
+
+  const text = el.getAttribute('aria-label') || el.textContent.trim();
+  if (!text) return;
+
+  speechSynthesis.cancel();
+
+  setTimeout(() => {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    speechSynthesis.speak(utter);
+  }, 100);
+}
+
+// ⑤ ページの初期化とイベント設定
+function setupFocusReading() {
+  applySIMStyling();
+
+  const readTargets = document.querySelectorAll(
+    '.skip-btn, .fullscreen-btn, #header h6, #header h1, #header a, .left article li, footer p, footer a'
+  );
+
+  readTargets.forEach(el => {
+    if (!el.hasAttribute('tabindex') && (el.tagName === 'LI' || el.tagName === 'H6' || el.tagName === 'H1' || el.tagName === 'P')) {
+      el.setAttribute('tabindex', '0');
+    }
+
+    el.addEventListener('focus', () => speakElement(el));
+    el.addEventListener('click', () => speakElement(el));
+  });
+}
+
+// ⑥ 全画面表示のオン・オフを切り替える
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+window.addEventListener('DOMContentLoaded', setupFocusReading);
+</script>
 
 </body>
 </html>
