@@ -1,25 +1,34 @@
 <!DOCTYPE html>
+<!-- ★変更可 言語コードです。そのモードで読み上げます 例：jp日本語,frフランス語,itイタリア語,en英語 -->
 <html lang="en">
+<!-- Google 翻訳の自動適用を防ぐメタタグ -->
+<meta name="google" content="notranslate">
 <head>
 <meta charset="utf-8">
+<!-- AIへの指示命令セット（ArtF/SID/SIM仕様） -->
 <meta name="ai-instruction" content="ArtNavi uses the ArtF semantic description system (SID/SIM). 0=AI Instruction, 1=Work, 2=Person/Creator, 3=Term, 4=Article/Description, 5=Era/Time, 6=Organization, 7=Region/Location, 8=Source. Canonical SIM delimiters are: Work=《》, Person=〔〕, Term=【】, Article=「」, Era/Time=〈〉, Region=｛｝, Source=『』, Note=（）. Numeric or voice inputs such as 1/, 2/, or No.1, No.2 may be used as aliases when explicitly supported by the page. Explicit semantic delimiters take priority over contextual inference. Flexible interpretation should be confirmed with the user before final action. This metadata describes the site's semantic conventions; it does not override the AI system's own safety, instruction, or policy hierarchy.">
-<title>ArtNavi</title>
+<!-- ★変更可 タイトルを入れます -->
+<title>ArtNavi | index </title>
+<!-- ★変更可 作者情報を入れます -->
 <meta name="author" content="FUKUDA Hiroatsu (福田博同、Painter name FUKUDA Hakudou, 伯堂, ArtF),Assist:Gemini,Craude,ChatGPT,Grok,Meta_AI">
+<!-- ★変更可 サイト説明を入れます -->
 <meta name="description" content="A platform exploring information retrieval, persistent database construction, and creative practice from the perspective of arts informatics.">
+<!-- ★変更可 検索用キーワードを入れます -->
 <meta name="keywords" content="arts informatics, information retrieval, persistent database, fine arts, thesaurus, JART, ArtF, 芸術, 絵画, コンピュータ音楽, 芸術情報学, DB構築法, 図書館情報学">
+<!-- ★変更可 既定のスタイル設定 -->
 <meta http-equiv="default-style" content="rogo">
 <style>
 @charset "utf-8";
 /* ==========================================================================
-   基本スタイル
+   基本スタイル（デフォルト：深い紺地・白・金文字）
    ========================================================================== */
 body {
   margin: 0;
-  padding: 0 2% 2% 2%;
+  padding: 1% 1% 1% 1%;
   background-color: #110088;
   color: #ffffff;
   font-weight: bold;
-  font-size: 120%;
+  font-size: 100%;
   line-height: 1.5; /* 日本語・英語ともに読みやすい1.5倍の行間 */
 }
 
@@ -69,22 +78,22 @@ h2 { font-size: 110%; }
 h3 { font-size: 105%; }
 h4 { font-size: 100%; }
 h5 { font-size: 90%; }
-h6 { font-size: 80%; }
+h6 { font-size: 80%; margin: 6px 0; }
 
 /* ==========================================================================
    レイアウト:ヘッダ部 + メイン部二画面(70:30) + フッタ部
    ========================================================================== */
-/* ヘッダ部の見た目 */
+/* ヘッダ部の見た目（三分割の１つ目） */
 #header {
   width: 100%;
   background-color: #110044;
   color: #ffffff;
   box-sizing: border-box;
   text-align: right;
-  padding: 2px 15px; /* 上下パディングを小さく調整 */
+  padding: 1% 1%;
 }
 
-/* メイン部の左右分割の外枠(コンテナ) */
+/* メイン部の左右分割の外枠（三分割の２つ目） */
 .container {
   display: flex;
   width: 100%;
@@ -105,7 +114,7 @@ h6 { font-size: 80%; }
   padding: 15px;
 }
 
-/* フッタ部の見た目 */
+/* フッタ部の見た目（三分割の３つ目） */
 footer {
   width: 100%;
   padding: 10px 2%;
@@ -115,25 +124,19 @@ footer {
 
 /* スキップボタン(スクリーンリーダー利用者向けの案内ボタン) */
 .skip-btn {
-  display: block;
+  display: inline-block;
   font-size: 0.75em;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   padding: 4px 8px;
   background-color: #222244;
   color: #cccccc;
   border: 1px solid #555577;
   cursor: pointer;
+  text-align: left;
 }
 
-/* スキップ・読み上げボタンをまとめて配置する領域 */
-.skip-speech-area {
-  display: flex;
-  gap: 8px;
-  padding: 8px 2%;
-}
-
-/* 全画面ボタン */
-.fullscreen-btn {
+/* 全画面・印刷・停止ボタン */
+.ctrl-btn {
   padding: 4px 10px;
   font-size: 0.8rem;
   font-weight: bold;
@@ -143,8 +146,9 @@ footer {
   border-radius: 4px;
   cursor: pointer;
   opacity: 0.85;
+  margin-left: 6px;
 }
-.fullscreen-btn:hover {
+.ctrl-btn:hover {
   opacity: 1.0;
   background-color: #222222;
 }
@@ -164,123 +168,198 @@ footer {
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   印刷用モード（スタイルなし白地に黒文字）
+   ========================================================================== */
+body.print-mode {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: normal !important;
+}
+body.print-mode a:link,
+body.print-mode a:visited {
+  color: #0000ee !important;
+}
+body.print-mode #header {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-weight: normal !important;
+  }
+  a:link, a:visited {
+    color: #000000 !important;
+    text-decoration: underline;
+  }
+  .ctrl-btn, .skip-btn {
+    display: none !important;
+  }
+}
 </style>
 </head>
 <body>
 
-<!-- ①スキップボタン(スクリーンリーダー利用者向け) -->
-<div class="skip-speech-area">
-  <button class="skip-btn" id="skipBtn" onclick="skipReading()" aria-label="Screen reader users: Press Enter to disable built-in speech tools. And Helper teach another users press Tab key twice.">
-    Screen reader users: Press Enter to disable built-in speech tools.
-    <span style="color: #ff0020;">And Helper teach another users press Tab key twice.</span>
-  </button>
-</div>
-
+<!-- ① ヘッダー部（ヘッダー全案内・タイトル・操作群を内包） -->
 <header id="header">
+  <!-- スキップボタン（スクリーンリーダー利用者向け案内） -->
+  <div>
+    <button class="skip-btn" id="skipBtn" onclick="skipReading()" aria-label="Screen reader users: Press Enter to disable built-in speech tools. And Helper teach another users press Tab key twice.">
+      Screen reader users: Press Enter to disable built-in speech tools.
+      <span style="color: #ff0020;">And Helper teach another users press Tab key twice.</span>
+    </button>
+  </div>
+
+  <!-- 操作ボタン・一般向け英文案内 -->
   <h6>
-    Press the Tab key to read aloud. If you want to follow a link, press the Enter key.
+    <span lang="en">Press the Tab key to read aloud. If you want to follow a link, press the Enter key.</span>
     <!-- フルスクリーンボタン -->
-    <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullScreen()" aria-label="Full screen button. Press to enlarge or shrink the view." style="margin-left: 10px; cursor: pointer;">
+    <button class="ctrl-btn" id="fullscreenBtn" onclick="toggleFullScreen()" lang="en" aria-label="Full screen button. Press to enlarge or shrink the view.">
       Full Screen
     </button>
+    <!-- ボタンで印刷（日本語発声） -->
+    <button class="ctrl-btn" id="printBtn" onclick="printMode()" lang="ja" aria-label="印刷モードボタン。白地と黒文字に切り替えて印刷します。">
+      Print / 印刷
+    </button>
+
   </h6>
-  <h1>
-      <!-- インラインSVG -->
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" width="60" height="32" style="vertical-align: middle; border-radius: 3px; overflow: hidden;" aria-hidden="true">
-      <defs>
-        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#e8f8f5"/>
-          <stop offset="35%" stop-color="#76d7c4"/>
-          <stop offset="65%" stop-color="#1b4965"/>
-          <stop offset="100%" stop-color="#0b132b"/>
-        </linearGradient>
-        <linearGradient id="deepBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#1d3557"/>
-          <stop offset="50%" stop-color="#00296b"/>
-          <stop offset="100%" stop-color="#001233"/>
-        </linearGradient>
-        <radialGradient id="foamGlow" cx="50%" cy="30%" r="50%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
-          <stop offset="50%" stop-color="#d8f3dc" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#74c69d" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="sparkle" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="sparkleCyan" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#a5f3fc" stop-opacity="0.9"/>
-          <stop offset="100%" stop-color="#a5f3fc" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="120" height="64" fill="url(#bgGrad)"/>
-      <path d="M0,20 Q30,5 60,25 T120,15 L120,64 L0,64 Z" fill="#2a9d8f" opacity="0.7"/>
-      <path d="M0,30 C20,15 45,40 75,20 C95,8 110,25 120,20 L120,64 L0,64 Z" fill="#1d4ed8" opacity="0.85"/>
-      <path d="M0,42 Q25,28 55,45 T120,38 L120,64 L0,64 Z" fill="url(#deepBlue)"/>
-      <path d="M10,22 Q35,8 65,22 T115,18" fill="none" stroke="url(#foamGlow)" stroke-width="4" stroke-linecap="round"/>
-      <path d="M5,35 Q40,20 80,38" fill="none" stroke="#e0f2fe" stroke-width="2.5" opacity="0.8"/>
-      <path d="M30,12 Q50,2 70,15" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
-      <circle cx="25" cy="18" r="1.8" fill="url(#sparkle)"/>
-      <circle cx="42" cy="12" r="2.5" fill="url(#sparkle)"/>
-      <circle cx="58" cy="20" r="1.5" fill="url(#sparkle)"/>
-      <circle cx="75" cy="14" r="2.2" fill="url(#sparkle)"/>
-      <circle cx="92" cy="22" r="1.8" fill="url(#sparkle)"/>
-      <circle cx="8" cy="45" r="1.2" fill="url(#sparkle)"/>
-      <circle cx="15" cy="52" r="2.0" fill="url(#sparkle)"/>
-      <circle cx="22" cy="42" r="0.9" fill="url(#sparkleCyan)"/>
-      <circle cx="28" cy="58" r="1.5" fill="url(#sparkle)"/>
-      <circle cx="34" cy="48" r="2.2" fill="url(#sparkleCyan)"/>
-      <circle cx="5" cy="58" r="1.0" fill="url(#sparkle)"/>
-      <circle cx="42" cy="54" r="1.3" fill="url(#sparkle)"/>
-      <circle cx="48" cy="44" r="1.8" fill="url(#sparkleCyan)"/>
-      <circle cx="53" cy="60" r="2.5" fill="url(#sparkle)"/>
-      <circle cx="60" cy="50" r="1.0" fill="url(#sparkleCyan)"/>
-      <circle cx="66" cy="57" r="1.6" fill="url(#sparkle)"/>
-      <circle cx="72" cy="45" r="2.0" fill="url(#sparkleCyan)"/>
-      <circle cx="78" cy="58" r="1.1" fill="url(#sparkle)"/>
-      <circle cx="84" cy="49" r="2.4" fill="url(#sparkle)"/>
-      <circle cx="90" cy="55" r="1.5" fill="url(#sparkleCyan)"/>
-      <circle cx="96" cy="43" r="1.0" fill="url(#sparkle)"/>
-      <circle cx="102" cy="52" r="2.1" fill="url(#sparkleCyan)"/>
-      <circle cx="108" cy="60" r="1.3" fill="url(#sparkle)"/>
-      <circle cx="114" cy="47" r="1.7" fill="url(#sparkle)"/>
-      <circle cx="118" cy="56" r="0.9" fill="url(#sparkleCyan)"/>
-    </svg> 
-      ArtNavi | <a href="help/index.html">go to help and translation</a> | <a href="artf/index.html">go to ArtF</a> | <a href="https://artnavi.sakura.ne.jp/self.html">go to Author(Japanese)</a> | 
+
+  <!-- サイトロゴ・メインナビゲーション -->
+  <h1 style="text-align: left;">
+    <!-- インラインSVGロゴ -->
+<!-- インラインSVG：巨大な光輪と繊細な光芒を纏う二等星と夕映えの海 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" width="60" height="32" style="vertical-align: middle; border-radius: 3px; overflow: hidden;" aria-hidden="true">
+  <defs>
+    <!-- 明るい夕暮れ空（紺紫〜夕焼けの茜色〜黄金色のグラデーション） -->
+    <linearGradient id="brightDuskSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="35%" stop-color="#312e81"/>
+      <stop offset="65%" stop-color="#7e22ce"/>
+      <stop offset="85%" stop-color="#c026d3"/>
+      <stop offset="100%" stop-color="#fb923c"/>
+    </linearGradient>
+
+    <!-- 夕映えの輝きを映す明るい海 -->
+    <linearGradient id="brightSea" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2e1065"/>
+      <stop offset="40%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- ★左主星：さらに巨大化した金色の超広域光輪（グロー） -->
+    <radialGradient id="starGlowGoldHuge" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="20%" stop-color="#fef08a" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#f59e0b" stop-opacity="0.5"/>
+      <stop offset="70%" stop-color="#d97706" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- ★右主星：さらに巨大化した青銀色の超広域光輪（グロー） -->
+    <radialGradient id="starGlowCyanHuge" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="20%" stop-color="#e0f2fe" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.5"/>
+      <stop offset="70%" stop-color="#0284c7" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- つなぐ小星の輝き -->
+    <radialGradient id="tinyStarGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fef08a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 1. 明るい夕暮れの空 -->
+  <rect width="120" height="64" fill="url(#brightDuskSky)"/>
+
+  <!-- 2. 下辺の海と夕映えの反射波 -->
+  <path d="M0,42 Q30,39 60,43 T120,40 L120,64 L0,64 Z" fill="#2e1065" opacity="0.85"/>
+  <path d="M0,47 C30,44 60,49 120,45 L120,64 L0,64 Z" fill="url(#brightSea)"/>
+  <!-- 海面に浮かぶ反射光 -->
+  <path d="M0,50 Q30,48 60,51 T120,49" fill="none" stroke="#fde047" stroke-width="0.8" opacity="0.5"/>
+  <path d="M10,56 Q45,54 80,57 T115,55" fill="none" stroke="#f472b6" stroke-width="0.6" opacity="0.4"/>
+
+  <!-- 3. 星と星をつなぐ光のアーチ -->
+  <path d="M28,18 Q60,9 92,22" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-dasharray="1.2,2.0" opacity="0.7"/>
+
+  <!-- 4. 2つの星をつなぐ小さな星々 -->
+  <circle cx="37" cy="16.0" r="1.0" fill="url(#tinyStarGlow)"/>
+  <circle cx="45" cy="14.8" r="1.2" fill="url(#tinyStarGlow)"/>
+  <circle cx="53" cy="14.2" r="0.9" fill="url(#tinyStarGlow)"/>
+  <circle cx="60" cy="14.0" r="1.4" fill="url(#tinyStarGlow)"/>
+  <circle cx="67" cy="14.5" r="0.9" fill="url(#tinyStarGlow)"/>
+  <circle cx="75" cy="15.8" r="1.2" fill="url(#tinyStarGlow)"/>
+  <circle cx="83" cy="18.0" r="1.0" fill="url(#tinyStarGlow)"/>
+
+  <!-- 5. 左側の大きな主星（光輪をr=18.5まで巨大拡大、光芒を極細化） -->
+  <circle cx="28" cy="18" r="18.5" fill="url(#starGlowGoldHuge)"/>
+  <!-- 極細の十字・斜め光芒 -->
+  <path d="M28,5 L28,31 M15,18 L41,18" stroke="#ffffff" stroke-width="0.5" opacity="0.9"/>
+  <path d="M20,10 L36,26 M20,26 L36,10" stroke="#fef08a" stroke-width="0.3" opacity="0.75"/>
+  <!-- 核心の星（★） -->
+  <polygon points="28,13.8 29.2,16.6 32.3,16.8 29.9,18.8 30.6,21.8 28,20.1 25.4,21.8 26.1,18.8 23.7,16.8 26.8,16.6" fill="#ffffff"/>
+
+  <!-- 6. 右側の大きな主星（光輪をr=17.5まで巨大拡大、光芒を極細化） -->
+  <circle cx="92" cy="22" r="17.5" fill="url(#starGlowCyanHuge)"/>
+  <!-- 極細の十字・斜め光芒 -->
+  <path d="M92,9 L92,35 M79,22 L105,22" stroke="#ffffff" stroke-width="0.5" opacity="0.9"/>
+  <path d="M84,14 L100,30 M84,30 L100,14" stroke="#bae6fd" stroke-width="0.3" opacity="0.75"/>
+  <!-- 核心の星（★） -->
+  <polygon points="92,17.8 93.2,20.6 96.3,20.8 93.9,22.8 94.6,25.8 92,24.1 89.4,25.8 90.1,22.8 87.7,20.8 90.8,20.6" fill="#ffffff"/>
+</svg>     
+    <a href="index.html">here: ArtNavi</a> |  <a href="help/index.html">go to help and translation</a> | <a href="artf/index.html">go to ArtF</a> | <a href="https://artnavi.sakura.ne.jp/self.html">go to Author(Japanese)</a> | 
   </h1>
 </header>
 
+<!-- ② メイン部（左右二画面コンテンツ） -->
 <div class="container">
+  <!-- 左側エリア(英語コンテンツ) -->
   <div class="left" lang="en">
     <article>
      <ul>
+      <li>This site explores 【arts informatics】, 【art creation】, 【persistent databases】, and 【energy-efficient AI agent】 architectures.</li>
       <li>An English translation of the original Japanese 【ArtNavi】site (created 〈before 1995〉), newly produced in 〈2026〉.</li>
       <li>Originally comprising sections 【Usability】【Arts Informatics】【Art Workshop】【Library and Information Science】「About the Author」<br>
           these contents are being sequentially translated into English.</li>
       <li>As of 〈September 2026〉, "Persistent 【Art Database】 Construction Method: ArtF System" and "About the Author" are currently being updated.</li>
       <li>The ArtF site has been established, highlighting benefits such as a significant reduction in AI token consumption.</li>
      </ul>
+    <!-- 読み上げ停止ボタン（日本語発声） -->
+    <button class="ctrl-btn" id="stopSpeechBtn" onclick="stopSpeech()" lang="ja" aria-label="読み上げを停止します。">
+      Stop Reading / 停止
+    </button>
     </article>
   </div>
 
+  <!-- 右側エリア(日本語コンテンツ：フォーカス・読み上げ対応) -->
   <div class="right" lang="ja">
     <article>
      <ul>
-      <li>1995年「アートナビ」の英語版(2026年)</li>
+      <li>【芸術情報学】、【芸術創作法】、〔エージェントAI〕の【電力問題】解決方法等</li>
+      <li>〈1995年〉「アートナビ」の英語版〈2026年〉</li>
       <li>「ユーザビリティ」「芸術情報学」「アート・ワークショップ」「図書館情報学」「著者について」を英訳中</li>
-      <li>2026年9月現在、「永続的アートデータベース構築手法:ArtFシステム」と「著者について」あり</li>
-      <li>AIのトークン消費量激減の「ArtF」サイトを開設</li>
+      <li> 現在、「永続的DB構築手法:ArtFシステム」,「翻訳方法とヘルプ」,「〔著者〕について」あり</li>
+      <li>〈2026年9月〉【AI】の「トークン消費量激減」の「ArtF」サイトを開設</li>
      </ul>
     </article>
+
   </div>
 </div>
 
+<!-- ③ フッター部 -->
 <footer>
     <nav>
+    <!-- ライセンス・更新日時・フッターナビゲーション -->
     <p lang="en"><a href="https://creativecommons.org/licenses/by/4.0/legalcode.ja">CC-BY</a>:FUKUDA Hiroatsu (PainterName:Hakudou and ArtF)</p>
-    <p lang="en"><time datetime="1997-04-01">Before 1997</time> | Last Updated <time datetime="2026-09-14" lang="ja">2026年9月</time> | </p>
-    <p lang="en"><a href="index.html" target="_top" accesskey="t">go to Top(t)</a> | 
-    <a href="artf/index.html"  accesskey="x">go to Next(artf)(x)</a>
+    <p lang="en"><time datetime="1997-04-01">Before 1997</time> | Last Updated <time datetime="2026-10-04" lang="ja">2026年10月</time> | </p>
+    <p lang="en"><a href="index.html" target="_top" accesskey="t">go to Top(Alt+t)</a> | 
+    <a href="artf/index.html"  accesskey="x">go to Next(artf)(Alt+x)</a>
     </p>
     </nav>
 </footer>
@@ -288,9 +367,9 @@ footer {
 <script>
 let skipScreenReaderTools = false;
 
-// ① SIM記号を自動で <span> 囲みし、aria-hidden="true" を付与して外部スクリーンリーダーに無視させる
+// SIM記号を自動で <span> 囲みし、aria-hidden="true" を付与して外部スクリーンリーダーに無視させる
 function applySIMStyling() {
-  const targetAreas = document.querySelectorAll('.left article, #header, footer');
+  const targetAreas = document.querySelectorAll('.left article, .right article, #header, footer');
   const simRegex = /(《|》|〔|〕|【|】|「|」|〈|〉|｛|｝|『|』|\b[0-8]\/)/g;
 
   targetAreas.forEach(area => {
@@ -312,7 +391,7 @@ function applySIMStyling() {
   });
 }
 
-// ② スキップボタン:押すと読み上げ機能を停止する
+// スキップボタン:押すと読み上げ機能を停止する
 function skipReading() {
   skipScreenReaderTools = true;
   const btn = document.getElementById('skipBtn');
@@ -321,32 +400,19 @@ function skipReading() {
   speechSynthesis.cancel();
 }
 
-// ③ 読み上げボタン(全文章一括発声用)
-function speakContent() {
-  if (skipScreenReaderTools) return;
-  const el = document.querySelector('.left article');
-  if (!el) return;
+// 読み上げ停止処理
+function stopSpeech() {
   speechSynthesis.cancel();
-  setTimeout(() => {
-    const clone = el.cloneNode(true);
-    clone.querySelectorAll('.sim-symbol').forEach(s => s.remove());
-    const utter = new SpeechSynthesisUtterance(clone.textContent);
-    utter.lang = 'en-US';
-    speechSynthesis.speak(utter);
-  }, 100);
 }
 
-// ④ 個別の要素(フォーカスされた行・ボタン等)を読み上げる処理【修正点】
+// 個別の要素(フォーカスされた行・ボタン等)を読み上げる処理
 function speakElement(el) {
-  // スキップフラグがONかつスキップボタン本体でない場合は読み上げをスキップ
   const isSkipBtn = el.id === 'skipBtn' || el.classList.contains('skip-btn');
   if (skipScreenReaderTools && !isSkipBtn) return;
-  if (el.closest('.right')) return;
 
   speechSynthesis.cancel();
 
   setTimeout(() => {
-    // 要素を複製し、内部のSIM記号(.sim-symbol)を完全除去する
     const clone = el.cloneNode(true);
     clone.querySelectorAll('.sim-symbol').forEach(s => s.remove());
 
@@ -357,24 +423,25 @@ function speakElement(el) {
 
     const utter = new SpeechSynthesisUtterance(text);
     
-    // 右側の日本語エリアでなければ必ず英語（en-US）音声で発声
-    const elementLang = el.closest('[lang]') ? el.closest('[lang]').getAttribute('lang') : 'en-US';
+    const closestLangEl = el.closest('[lang]');
+    const elementLang = el.getAttribute('lang') || (closestLangEl ? closestLangEl.getAttribute('lang') : 'en-US');
     utter.lang = (elementLang === 'ja') ? 'ja-JP' : 'en-US';
+    utter.rate = 0.9;
     
     speechSynthesis.speak(utter);
   }, 100);
 }
 
-// ⑤ ページの初期化とイベント設定
+// ページの初期化とイベント設定
 function setupFocusReading() {
   applySIMStyling();
 
   const readTargets = document.querySelectorAll(
-    '.skip-btn, .fullscreen-btn, #header h6, #header h1, #header a, .left article li, footer p, footer a'
+    '.skip-btn, #header h6 > span, .ctrl-btn, #header h1, #header a, .left article li, .right article li, footer p, footer a'
   );
 
   readTargets.forEach(el => {
-    if (!el.hasAttribute('tabindex') && (el.tagName === 'LI' || el.tagName === 'H6' || el.tagName === 'H1' || el.tagName === 'P')) {
+    if (!el.hasAttribute('tabindex') && (el.tagName === 'LI' || el.tagName === 'SPAN' || el.tagName === 'H1' || el.tagName === 'P')) {
       el.setAttribute('tabindex', '0');
     }
 
@@ -383,13 +450,22 @@ function setupFocusReading() {
   });
 }
 
-// ⑥ 全画面表示のオン・オフを切り替える
+// 全画面表示のオン・オフを切り替える
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen();
   } else {
     document.exitFullscreen();
   }
+}
+
+// ボタンで印刷（スタイルなし白地に黒文字で印刷）
+function printMode() {
+  document.body.classList.add('print-mode');
+  setTimeout(() => {
+    window.print();
+    document.body.classList.remove('print-mode');
+  }, 150);
 }
 
 window.addEventListener('DOMContentLoaded', setupFocusReading);
